@@ -1,0 +1,1194 @@
+2026-03-04 14:16:09 Training with configuration:
+2026-03-04 14:16:09 data:
+2026-03-04 14:16:09   colormode: RGB
+2026-03-04 14:16:09   inference:
+2026-03-04 14:16:09     normalize_images: True
+2026-03-04 14:16:09   train:
+2026-03-04 14:16:09     affine:
+2026-03-04 14:16:09       p: 0.5
+2026-03-04 14:16:09       rotation: 30
+2026-03-04 14:16:09       scaling: [1.0, 1.0]
+2026-03-04 14:16:09       translation: 0
+2026-03-04 14:16:09     collate:
+2026-03-04 14:16:09       type: ResizeFromDataSizeCollate
+2026-03-04 14:16:09       min_scale: 0.4
+2026-03-04 14:16:09       max_scale: 1.0
+2026-03-04 14:16:09       min_short_side: 128
+2026-03-04 14:16:09       max_short_side: 1152
+2026-03-04 14:16:09       multiple_of: 32
+2026-03-04 14:16:09       to_square: False
+2026-03-04 14:16:09     covering: False
+2026-03-04 14:16:09     gaussian_noise: 12.75
+2026-03-04 14:16:09     hist_eq: False
+2026-03-04 14:16:09     motion_blur: False
+2026-03-04 14:16:09     normalize_images: True
+2026-03-04 14:16:09 device: auto
+2026-03-04 14:16:09 metadata:
+2026-03-04 14:16:09   project_path: /home/dalykm/Desktop/PLR_HiLo_Pilot-KMD-2026-02-25
+2026-03-04 14:16:09   pose_config_path: /home/dalykm/Desktop/PLR_HiLo_Pilot-KMD-2026-02-25/dlc-models-pytorch/iteration-0/PLR_HiLo_PilotFeb25-trainset95shuffle1/train/pose_cfg.yaml
+2026-03-04 14:16:09   bodyparts: ['N', 'S', 'E', 'W', 'NE', 'NW', 'SE', 'SW']
+2026-03-04 14:16:09   unique_bodyparts: []
+2026-03-04 14:16:09   individuals: ['animal']
+2026-03-04 14:16:09   with_identity: None
+2026-03-04 14:16:09 method: bu
+2026-03-04 14:16:09 model:
+2026-03-04 14:16:09   backbone:
+2026-03-04 14:16:09     type: ResNet
+2026-03-04 14:16:09     model_name: resnet50_gn
+2026-03-04 14:16:09     output_stride: 16
+2026-03-04 14:16:09     freeze_bn_stats: True
+2026-03-04 14:16:09     freeze_bn_weights: False
+2026-03-04 14:16:09   backbone_output_channels: 2048
+2026-03-04 14:16:09   heads:
+2026-03-04 14:16:09     bodypart:
+2026-03-04 14:16:09       type: HeatmapHead
+2026-03-04 14:16:09       weight_init: normal
+2026-03-04 14:16:09       predictor:
+2026-03-04 14:16:09         type: HeatmapPredictor
+2026-03-04 14:16:09         apply_sigmoid: False
+2026-03-04 14:16:09         clip_scores: True
+2026-03-04 14:16:09         location_refinement: True
+2026-03-04 14:16:09         locref_std: 7.2801
+2026-03-04 14:16:09       target_generator:
+2026-03-04 14:16:09         type: HeatmapGaussianGenerator
+2026-03-04 14:16:09         num_heatmaps: 8
+2026-03-04 14:16:09         pos_dist_thresh: 17
+2026-03-04 14:16:09         heatmap_mode: KEYPOINT
+2026-03-04 14:16:09         generate_locref: True
+2026-03-04 14:16:09         locref_std: 7.2801
+2026-03-04 14:16:09       criterion:
+2026-03-04 14:16:09         heatmap:
+2026-03-04 14:16:09           type: WeightedMSECriterion
+2026-03-04 14:16:09           weight: 1.0
+2026-03-04 14:16:09         locref:
+2026-03-04 14:16:09           type: WeightedHuberCriterion
+2026-03-04 14:16:09           weight: 0.05
+2026-03-04 14:16:09       heatmap_config:
+2026-03-04 14:16:09         channels: [2048, 8]
+2026-03-04 14:16:09         kernel_size: [3]
+2026-03-04 14:16:09         strides: [2]
+2026-03-04 14:16:09       locref_config:
+2026-03-04 14:16:09         channels: [2048, 16]
+2026-03-04 14:16:09         kernel_size: [3]
+2026-03-04 14:16:09         strides: [2]
+2026-03-04 14:16:09 net_type: resnet_50
+2026-03-04 14:16:09 runner:
+2026-03-04 14:16:09   type: PoseTrainingRunner
+2026-03-04 14:16:09   gpus: None
+2026-03-04 14:16:09   key_metric: test.mAP
+2026-03-04 14:16:09   key_metric_asc: True
+2026-03-04 14:16:09   eval_interval: 1
+2026-03-04 14:16:09   optimizer:
+2026-03-04 14:16:09     type: AdamW
+2026-03-04 14:16:09     params:
+2026-03-04 14:16:09       lr: 0.0001
+2026-03-04 14:16:09   scheduler:
+2026-03-04 14:16:09     type: LRListScheduler
+2026-03-04 14:16:09     params:
+2026-03-04 14:16:09       lr_list: [[1e-05], [1e-06]]
+2026-03-04 14:16:09       milestones: [160, 190]
+2026-03-04 14:16:09   snapshots:
+2026-03-04 14:16:09     max_snapshots: 5
+2026-03-04 14:16:09     save_epochs: 10
+2026-03-04 14:16:09     save_optimizer_state: False
+2026-03-04 14:16:09 train_settings:
+2026-03-04 14:16:09   batch_size: 2
+2026-03-04 14:16:09   dataloader_workers: 0
+2026-03-04 14:16:09   dataloader_pin_memory: True
+2026-03-04 14:16:09   display_iters: 50
+2026-03-04 14:16:09   epochs: 50
+2026-03-04 14:16:09   seed: 42
+2026-03-04 14:16:09 Loading pretrained weights from Hugging Face hub (timm/resnet50_gn.a1h_in1k)
+2026-03-04 14:16:09 [timm/resnet50_gn.a1h_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2026-03-04 14:16:09 Data Transforms:
+2026-03-04 14:16:09   Training:   Compose([
+  Affine(always_apply=False, p=0.5, interpolation=1, mask_interpolation=0, cval=0, mode=0, scale={'x': (1.0, 1.0), 'y': (1.0, 1.0)}, translate_percent=None, translate_px={'x': (0, 0), 'y': (0, 0)}, rotate=(-30, 30), fit_output=False, shear={'x': (0.0, 0.0), 'y': (0.0, 0.0)}, cval_mask=0, keep_ratio=True, rotate_method='largest_box'),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(0, 162.5625), per_channel=True, mean=0),
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2026-03-04 14:16:09   Validation: Compose([
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2026-03-04 14:16:09 Using custom collate function: {'type': 'ResizeFromDataSizeCollate', 'min_scale': 0.4, 'max_scale': 1.0, 'min_short_side': 128, 'max_short_side': 1152, 'multiple_of': 32, 'to_square': False}
+2026-03-04 14:16:09 
+Note: According to your model configuration, you're training with batch size 1 and/or ``freeze_bn_stats=false``. This is not an optimal setting if you have powerful GPUs.
+This is good for small batch sizes (e.g., when training on a CPU), where you should keep ``freeze_bn_stats=true``.
+If you're using a GPU to train, you can obtain faster performance by setting a larger batch size (the biggest power of 2 where you don't geta CUDA out-of-memory error, such as 8, 16, 32 or 64 depending on the model, size of your images, and GPU memory) and ``freeze_bn_stats=false`` for the backbone of your model. 
+This also allows you to increase the learning rate (empirically you can scale the learning rate by sqrt(batch_size) times).
+
+2026-03-04 14:16:09 Using 183 images and 10 for testing
+2026-03-04 14:16:09 
+Starting pose model training...
+--------------------------------------------------
+2026-03-04 14:17:07 Number of iterations: 50, loss: 0.01354, lr: 0.0001
+2026-03-04 14:18:00 Training for epoch 1 done, starting evaluation
+2026-03-04 14:18:02 Epoch 1 performance:
+2026-03-04 14:18:02 metrics/test.rmse:  117.346
+2026-03-04 14:18:02 metrics/test.rmse_pcutoff:nan
+2026-03-04 14:18:02 metrics/test.mAP:   18.743
+2026-03-04 14:18:02 metrics/test.mAR:   30.000
+2026-03-04 14:18:02 metrics/test.mAP_pcutoff:0.000
+2026-03-04 14:18:02 metrics/test.mAR_pcutoff:0.000
+2026-03-04 14:18:02 Epoch 1/50 (lr=0.0001), train loss 0.01351, valid loss 0.01110
+2026-03-04 14:19:05 Number of iterations: 50, loss: 0.00667, lr: 0.0001
+2026-03-04 14:19:58 Training for epoch 2 done, starting evaluation
+2026-03-04 14:20:00 Epoch 2 performance:
+2026-03-04 14:20:00 metrics/test.rmse:  92.625
+2026-03-04 14:20:00 metrics/test.rmse_pcutoff:nan
+2026-03-04 14:20:00 metrics/test.mAP:   44.851
+2026-03-04 14:20:00 metrics/test.mAR:   62.000
+2026-03-04 14:20:00 metrics/test.mAP_pcutoff:0.000
+2026-03-04 14:20:00 metrics/test.mAR_pcutoff:0.000
+2026-03-04 14:20:00 Epoch 2/50 (lr=0.0001), train loss 0.00960, valid loss 0.00820
+2026-03-04 14:21:02 Number of iterations: 50, loss: 0.00726, lr: 0.0001
+2026-03-04 14:21:51 Training for epoch 3 done, starting evaluation
+2026-03-04 14:21:54 Epoch 3 performance:
+2026-03-04 14:21:54 metrics/test.rmse:  47.376
+2026-03-04 14:21:54 metrics/test.rmse_pcutoff:nan
+2026-03-04 14:21:54 metrics/test.mAP:   62.941
+2026-03-04 14:21:54 metrics/test.mAR:   73.000
+2026-03-04 14:21:54 metrics/test.mAP_pcutoff:0.000
+2026-03-04 14:21:54 metrics/test.mAR_pcutoff:0.000
+2026-03-04 14:21:54 Epoch 3/50 (lr=0.0001), train loss 0.00752, valid loss 0.00796
+2026-03-04 14:22:54 Number of iterations: 50, loss: 0.00677, lr: 0.0001
+2026-03-04 14:23:40 Training for epoch 4 done, starting evaluation
+2026-03-04 14:23:43 Epoch 4 performance:
+2026-03-04 14:23:43 metrics/test.rmse:  40.261
+2026-03-04 14:23:43 metrics/test.rmse_pcutoff:8.517
+2026-03-04 14:23:43 metrics/test.mAP:   78.878
+2026-03-04 14:23:43 metrics/test.mAR:   84.000
+2026-03-04 14:23:43 metrics/test.mAP_pcutoff:4.356
+2026-03-04 14:23:43 metrics/test.mAR_pcutoff:4.000
+2026-03-04 14:23:43 Epoch 4/50 (lr=0.0001), train loss 0.00632, valid loss 0.00779
+2026-03-04 14:24:45 Number of iterations: 50, loss: 0.00495, lr: 0.0001
+2026-03-04 14:25:35 Training for epoch 5 done, starting evaluation
+2026-03-04 14:25:37 Epoch 5 performance:
+2026-03-04 14:25:37 metrics/test.rmse:  71.047
+2026-03-04 14:25:37 metrics/test.rmse_pcutoff:5.130
+2026-03-04 14:25:37 metrics/test.mAP:   64.198
+2026-03-04 14:25:37 metrics/test.mAR:   76.000
+2026-03-04 14:25:37 metrics/test.mAP_pcutoff:0.000
+2026-03-04 14:25:37 metrics/test.mAR_pcutoff:0.000
+2026-03-04 14:25:37 Epoch 5/50 (lr=0.0001), train loss 0.00621, valid loss 0.00752
+2026-03-04 14:26:35 Number of iterations: 50, loss: 0.00594, lr: 0.0001
+2026-03-04 14:27:26 Training for epoch 6 done, starting evaluation
+2026-03-04 14:27:28 Epoch 6 performance:
+2026-03-04 14:27:28 metrics/test.rmse:  46.525
+2026-03-04 14:27:28 metrics/test.rmse_pcutoff:7.991
+2026-03-04 14:27:28 metrics/test.mAP:   82.470
+2026-03-04 14:27:28 metrics/test.mAR:   88.000
+2026-03-04 14:27:28 metrics/test.mAP_pcutoff:0.000
+2026-03-04 14:27:28 metrics/test.mAR_pcutoff:0.000
+2026-03-04 14:27:28 Epoch 6/50 (lr=0.0001), train loss 0.00535, valid loss 0.00718
+2026-03-04 14:28:28 Number of iterations: 50, loss: 0.00734, lr: 0.0001
+2026-03-04 14:29:14 Training for epoch 7 done, starting evaluation
+2026-03-04 14:29:16 Epoch 7 performance:
+2026-03-04 14:29:16 metrics/test.rmse:  54.336
+2026-03-04 14:29:16 metrics/test.rmse_pcutoff:5.371
+2026-03-04 14:29:16 metrics/test.mAP:   73.779
+2026-03-04 14:29:16 metrics/test.mAR:   82.000
+2026-03-04 14:29:16 metrics/test.mAP_pcutoff:7.624
+2026-03-04 14:29:16 metrics/test.mAR_pcutoff:7.000
+2026-03-04 14:29:16 Epoch 7/50 (lr=0.0001), train loss 0.00480, valid loss 0.00731
+2026-03-04 14:30:15 Number of iterations: 50, loss: 0.00415, lr: 0.0001
+2026-03-04 14:31:05 Training for epoch 8 done, starting evaluation
+2026-03-04 14:31:07 Epoch 8 performance:
+2026-03-04 14:31:07 metrics/test.rmse:  93.202
+2026-03-04 14:31:07 metrics/test.rmse_pcutoff:5.677
+2026-03-04 14:31:07 metrics/test.mAP:   69.099
+2026-03-04 14:31:07 metrics/test.mAR:   79.000
+2026-03-04 14:31:07 metrics/test.mAP_pcutoff:5.446
+2026-03-04 14:31:07 metrics/test.mAR_pcutoff:5.000
+2026-03-04 14:31:07 Epoch 8/50 (lr=0.0001), train loss 0.00456, valid loss 0.00636
+2026-03-04 14:32:07 Number of iterations: 50, loss: 0.00175, lr: 0.0001
+2026-03-04 14:32:54 Training for epoch 9 done, starting evaluation
+2026-03-04 14:32:57 Epoch 9 performance:
+2026-03-04 14:32:57 metrics/test.rmse:  40.599
+2026-03-04 14:32:57 metrics/test.rmse_pcutoff:6.891
+2026-03-04 14:32:57 metrics/test.mAP:   84.911
+2026-03-04 14:32:57 metrics/test.mAR:   90.000
+2026-03-04 14:32:57 metrics/test.mAP_pcutoff:5.446
+2026-03-04 14:32:57 metrics/test.mAR_pcutoff:5.000
+2026-03-04 14:32:57 Epoch 9/50 (lr=0.0001), train loss 0.00454, valid loss 0.00615
+2026-03-04 14:33:54 Number of iterations: 50, loss: 0.00146, lr: 0.0001
+2026-03-04 14:34:43 Training for epoch 10 done, starting evaluation
+2026-03-04 14:34:45 Epoch 10 performance:
+2026-03-04 14:34:45 metrics/test.rmse:  85.467
+2026-03-04 14:34:45 metrics/test.rmse_pcutoff:5.614
+2026-03-04 14:34:45 metrics/test.mAP:   70.901
+2026-03-04 14:34:45 metrics/test.mAR:   82.000
+2026-03-04 14:34:45 metrics/test.mAP_pcutoff:8.713
+2026-03-04 14:34:45 metrics/test.mAR_pcutoff:8.000
+2026-03-04 14:34:45 Epoch 10/50 (lr=0.0001), train loss 0.00425, valid loss 0.00613
+2026-03-04 14:35:44 Number of iterations: 50, loss: 0.00634, lr: 0.0001
+2026-03-04 14:36:31 Training for epoch 11 done, starting evaluation
+2026-03-04 14:36:34 Epoch 11 performance:
+2026-03-04 14:36:34 metrics/test.rmse:  39.934
+2026-03-04 14:36:34 metrics/test.rmse_pcutoff:42.278
+2026-03-04 14:36:34 metrics/test.mAP:   84.584
+2026-03-04 14:36:34 metrics/test.mAR:   90.000
+2026-03-04 14:36:34 metrics/test.mAP_pcutoff:26.238
+2026-03-04 14:36:34 metrics/test.mAR_pcutoff:26.000
+2026-03-04 14:36:34 Epoch 11/50 (lr=0.0001), train loss 0.00405, valid loss 0.00622
+2026-03-04 14:37:31 Number of iterations: 50, loss: 0.00389, lr: 0.0001
+2026-03-04 14:38:18 Training for epoch 12 done, starting evaluation
+2026-03-04 14:38:20 Epoch 12 performance:
+2026-03-04 14:38:20 metrics/test.rmse:  48.960
+2026-03-04 14:38:20 metrics/test.rmse_pcutoff:9.311
+2026-03-04 14:38:20 metrics/test.mAP:   79.634
+2026-03-04 14:38:20 metrics/test.mAR:   87.000
+2026-03-04 14:38:20 metrics/test.mAP_pcutoff:18.812
+2026-03-04 14:38:20 metrics/test.mAR_pcutoff:18.000
+2026-03-04 14:38:20 Epoch 12/50 (lr=0.0001), train loss 0.00383, valid loss 0.00647
+2026-03-04 14:39:19 Number of iterations: 50, loss: 0.00361, lr: 0.0001
+2026-03-04 14:40:08 Training for epoch 13 done, starting evaluation
+2026-03-04 14:40:11 Epoch 13 performance:
+2026-03-04 14:40:11 metrics/test.rmse:  47.002
+2026-03-04 14:40:11 metrics/test.rmse_pcutoff:10.708
+2026-03-04 14:40:11 metrics/test.mAP:   74.238
+2026-03-04 14:40:11 metrics/test.mAR:   82.000
+2026-03-04 14:40:11 metrics/test.mAP_pcutoff:7.624
+2026-03-04 14:40:11 metrics/test.mAR_pcutoff:7.000
+2026-03-04 14:40:11 Epoch 13/50 (lr=0.0001), train loss 0.00400, valid loss 0.00693
+2026-03-04 14:41:06 Number of iterations: 50, loss: 0.00256, lr: 0.0001
+2026-03-04 14:41:53 Training for epoch 14 done, starting evaluation
+2026-03-04 14:41:56 Epoch 14 performance:
+2026-03-04 14:41:56 metrics/test.rmse:  16.989
+2026-03-04 14:41:56 metrics/test.rmse_pcutoff:6.888
+2026-03-04 14:41:56 metrics/test.mAP:   91.089
+2026-03-04 14:41:56 metrics/test.mAR:   94.000
+2026-03-04 14:41:56 metrics/test.mAP_pcutoff:14.851
+2026-03-04 14:41:56 metrics/test.mAR_pcutoff:14.000
+2026-03-04 14:41:56 Epoch 14/50 (lr=0.0001), train loss 0.00337, valid loss 0.00604
+2026-03-04 14:42:48 Number of iterations: 50, loss: 0.00453, lr: 0.0001
+2026-03-04 14:43:35 Training for epoch 15 done, starting evaluation
+2026-03-04 14:43:37 Epoch 15 performance:
+2026-03-04 14:43:37 metrics/test.rmse:  26.634
+2026-03-04 14:43:37 metrics/test.rmse_pcutoff:5.608
+2026-03-04 14:43:37 metrics/test.mAP:   93.594
+2026-03-04 14:43:37 metrics/test.mAR:   95.000
+2026-03-04 14:43:37 metrics/test.mAP_pcutoff:5.446
+2026-03-04 14:43:37 metrics/test.mAR_pcutoff:5.000
+2026-03-04 14:43:37 Epoch 15/50 (lr=0.0001), train loss 0.00311, valid loss 0.00580
+2026-03-04 14:44:43 Number of iterations: 50, loss: 0.00358, lr: 0.0001
+2026-03-04 14:45:31 Training for epoch 16 done, starting evaluation
+2026-03-04 14:45:33 Epoch 16 performance:
+2026-03-04 14:45:33 metrics/test.rmse:  35.427
+2026-03-04 14:45:33 metrics/test.rmse_pcutoff:8.089
+2026-03-04 14:45:33 metrics/test.mAP:   79.044
+2026-03-04 14:45:33 metrics/test.mAR:   87.000
+2026-03-04 14:45:33 metrics/test.mAP_pcutoff:18.812
+2026-03-04 14:45:33 metrics/test.mAR_pcutoff:18.000
+2026-03-04 14:45:33 Epoch 16/50 (lr=0.0001), train loss 0.00362, valid loss 0.00665
+2026-03-04 14:46:32 Number of iterations: 50, loss: 0.00129, lr: 0.0001
+2026-03-04 14:47:18 Training for epoch 17 done, starting evaluation
+2026-03-04 14:47:21 Epoch 17 performance:
+2026-03-04 14:47:21 metrics/test.rmse:  22.775
+2026-03-04 14:47:21 metrics/test.rmse_pcutoff:9.402
+2026-03-04 14:47:21 metrics/test.mAP:   87.702
+2026-03-04 14:47:21 metrics/test.mAR:   92.000
+2026-03-04 14:47:21 metrics/test.mAP_pcutoff:16.386
+2026-03-04 14:47:21 metrics/test.mAR_pcutoff:16.000
+2026-03-04 14:47:21 Epoch 17/50 (lr=0.0001), train loss 0.00321, valid loss 0.00626
+2026-03-04 14:48:23 Number of iterations: 50, loss: 0.00192, lr: 0.0001
+2026-03-04 14:49:09 Training for epoch 18 done, starting evaluation
+2026-03-04 14:49:11 Epoch 18 performance:
+2026-03-04 14:49:11 metrics/test.rmse:  22.593
+2026-03-04 14:49:11 metrics/test.rmse_pcutoff:7.218
+2026-03-04 14:49:11 metrics/test.mAP:   88.652
+2026-03-04 14:49:11 metrics/test.mAR:   93.000
+2026-03-04 14:49:11 metrics/test.mAP_pcutoff:21.782
+2026-03-04 14:49:11 metrics/test.mAR_pcutoff:21.000
+2026-03-04 14:49:11 Epoch 18/50 (lr=0.0001), train loss 0.00336, valid loss 0.00605
+2026-03-04 14:50:07 Number of iterations: 50, loss: 0.00381, lr: 0.0001
+2026-03-04 14:50:55 Training for epoch 19 done, starting evaluation
+2026-03-04 14:50:58 Epoch 19 performance:
+2026-03-04 14:50:58 metrics/test.rmse:  21.353
+2026-03-04 14:50:58 metrics/test.rmse_pcutoff:7.748
+2026-03-04 14:50:58 metrics/test.mAP:   93.380
+2026-03-04 14:50:58 metrics/test.mAR:   96.000
+2026-03-04 14:50:58 metrics/test.mAP_pcutoff:16.386
+2026-03-04 14:50:58 metrics/test.mAR_pcutoff:16.000
+2026-03-04 14:50:58 Epoch 19/50 (lr=0.0001), train loss 0.00305, valid loss 0.00576
+2026-03-04 14:51:56 Number of iterations: 50, loss: 0.00289, lr: 0.0001
+2026-03-04 14:52:39 Training for epoch 20 done, starting evaluation
+2026-03-04 14:52:41 Epoch 20 performance:
+2026-03-04 14:52:41 metrics/test.rmse:  22.436
+2026-03-04 14:52:41 metrics/test.rmse_pcutoff:10.736
+2026-03-04 14:52:41 metrics/test.mAP:   88.494
+2026-03-04 14:52:41 metrics/test.mAR:   93.000
+2026-03-04 14:52:41 metrics/test.mAP_pcutoff:25.743
+2026-03-04 14:52:41 metrics/test.mAR_pcutoff:25.000
+2026-03-04 14:52:41 Epoch 20/50 (lr=0.0001), train loss 0.00293, valid loss 0.00645
+2026-03-04 14:53:39 Number of iterations: 50, loss: 0.00282, lr: 0.0001
+2026-03-04 14:54:23 Training for epoch 21 done, starting evaluation
+2026-03-04 14:54:25 Epoch 21 performance:
+2026-03-04 14:54:25 metrics/test.rmse:  37.821
+2026-03-04 14:54:25 metrics/test.rmse_pcutoff:8.269
+2026-03-04 14:54:25 metrics/test.mAP:   86.455
+2026-03-04 14:54:25 metrics/test.mAR:   92.000
+2026-03-04 14:54:25 metrics/test.mAP_pcutoff:26.535
+2026-03-04 14:54:25 metrics/test.mAR_pcutoff:26.000
+2026-03-04 14:54:25 Epoch 21/50 (lr=0.0001), train loss 0.00287, valid loss 0.00629
+2026-03-04 14:55:21 Number of iterations: 50, loss: 0.00602, lr: 0.0001
+2026-03-04 14:56:05 Training for epoch 22 done, starting evaluation
+2026-03-04 14:56:07 Epoch 22 performance:
+2026-03-04 14:56:07 metrics/test.rmse:  18.737
+2026-03-04 14:56:07 metrics/test.rmse_pcutoff:7.799
+2026-03-04 14:56:07 metrics/test.mAP:   88.559
+2026-03-04 14:56:07 metrics/test.mAR:   92.000
+2026-03-04 14:56:07 metrics/test.mAP_pcutoff:23.762
+2026-03-04 14:56:07 metrics/test.mAR_pcutoff:23.000
+2026-03-04 14:56:07 Epoch 22/50 (lr=0.0001), train loss 0.00264, valid loss 0.00597
+2026-03-04 14:57:00 Number of iterations: 50, loss: 0.00596, lr: 0.0001
+2026-03-04 14:57:46 Training for epoch 23 done, starting evaluation
+2026-03-04 14:57:48 Epoch 23 performance:
+2026-03-04 14:57:48 metrics/test.rmse:  11.983
+2026-03-04 14:57:48 metrics/test.rmse_pcutoff:9.215
+2026-03-04 14:57:48 metrics/test.mAP:   94.291
+2026-03-04 14:57:48 metrics/test.mAR:   96.000
+2026-03-04 14:57:48 metrics/test.mAP_pcutoff:34.173
+2026-03-04 14:57:48 metrics/test.mAR_pcutoff:34.000
+2026-03-04 14:57:48 Epoch 23/50 (lr=0.0001), train loss 0.00273, valid loss 0.00673
+2026-03-04 14:58:45 Number of iterations: 50, loss: 0.00100, lr: 0.0001
+2026-03-04 14:59:36 Training for epoch 24 done, starting evaluation
+2026-03-04 14:59:39 Epoch 24 performance:
+2026-03-04 14:59:39 metrics/test.rmse:  20.638
+2026-03-04 14:59:39 metrics/test.rmse_pcutoff:7.129
+2026-03-04 14:59:39 metrics/test.mAP:   94.525
+2026-03-04 14:59:39 metrics/test.mAR:   97.000
+2026-03-04 14:59:39 metrics/test.mAP_pcutoff:19.802
+2026-03-04 14:59:39 metrics/test.mAR_pcutoff:19.000
+2026-03-04 14:59:39 Epoch 24/50 (lr=0.0001), train loss 0.00291, valid loss 0.00579
+2026-03-04 15:00:33 Number of iterations: 50, loss: 0.00286, lr: 0.0001
+2026-03-04 15:01:23 Training for epoch 25 done, starting evaluation
+2026-03-04 15:01:26 Epoch 25 performance:
+2026-03-04 15:01:26 metrics/test.rmse:  11.142
+2026-03-04 15:01:26 metrics/test.rmse_pcutoff:6.581
+2026-03-04 15:01:26 metrics/test.mAP:   93.453
+2026-03-04 15:01:26 metrics/test.mAR:   96.000
+2026-03-04 15:01:26 metrics/test.mAP_pcutoff:19.802
+2026-03-04 15:01:26 metrics/test.mAR_pcutoff:19.000
+2026-03-04 15:01:26 Epoch 25/50 (lr=0.0001), train loss 0.00286, valid loss 0.00538
+2026-03-04 15:02:21 Number of iterations: 50, loss: 0.00324, lr: 0.0001
+2026-03-04 15:03:12 Training for epoch 26 done, starting evaluation
+2026-03-04 15:03:14 Epoch 26 performance:
+2026-03-04 15:03:14 metrics/test.rmse:  10.897
+2026-03-04 15:03:14 metrics/test.rmse_pcutoff:9.217
+2026-03-04 15:03:14 metrics/test.mAP:   96.284
+2026-03-04 15:03:14 metrics/test.mAR:   97.000
+2026-03-04 15:03:14 metrics/test.mAP_pcutoff:34.653
+2026-03-04 15:03:14 metrics/test.mAR_pcutoff:34.000
+2026-03-04 15:03:14 Epoch 26/50 (lr=0.0001), train loss 0.00274, valid loss 0.00626
+2026-03-04 15:04:14 Number of iterations: 50, loss: 0.00188, lr: 0.0001
+2026-03-04 15:05:07 Training for epoch 27 done, starting evaluation
+2026-03-04 15:05:09 Epoch 27 performance:
+2026-03-04 15:05:09 metrics/test.rmse:  21.395
+2026-03-04 15:05:09 metrics/test.rmse_pcutoff:8.583
+2026-03-04 15:05:09 metrics/test.mAP:   90.141
+2026-03-04 15:05:09 metrics/test.mAR:   94.000
+2026-03-04 15:05:09 metrics/test.mAP_pcutoff:34.653
+2026-03-04 15:05:09 metrics/test.mAR_pcutoff:34.000
+2026-03-04 15:05:09 Epoch 27/50 (lr=0.0001), train loss 0.00261, valid loss 0.00622
+2026-03-04 15:06:08 Number of iterations: 50, loss: 0.00669, lr: 0.0001
+2026-03-04 15:06:55 Training for epoch 28 done, starting evaluation
+2026-03-04 15:06:58 Epoch 28 performance:
+2026-03-04 15:06:58 metrics/test.rmse:  10.385
+2026-03-04 15:06:58 metrics/test.rmse_pcutoff:6.110
+2026-03-04 15:06:58 metrics/test.mAP:   95.489
+2026-03-04 15:06:58 metrics/test.mAR:   97.000
+2026-03-04 15:06:58 metrics/test.mAP_pcutoff:32.475
+2026-03-04 15:06:58 metrics/test.mAR_pcutoff:32.000
+2026-03-04 15:06:58 Epoch 28/50 (lr=0.0001), train loss 0.00263, valid loss 0.00550
+2026-03-04 15:07:57 Number of iterations: 50, loss: 0.00148, lr: 0.0001
+2026-03-04 15:08:46 Training for epoch 29 done, starting evaluation
+2026-03-04 15:08:48 Epoch 29 performance:
+2026-03-04 15:08:48 metrics/test.rmse:  11.559
+2026-03-04 15:08:48 metrics/test.rmse_pcutoff:7.322
+2026-03-04 15:08:48 metrics/test.mAP:   94.710
+2026-03-04 15:08:48 metrics/test.mAR:   96.000
+2026-03-04 15:08:48 metrics/test.mAP_pcutoff:19.109
+2026-03-04 15:08:48 metrics/test.mAR_pcutoff:19.000
+2026-03-04 15:08:48 Epoch 29/50 (lr=0.0001), train loss 0.00293, valid loss 0.00561
+2026-03-04 15:09:38 Number of iterations: 50, loss: 0.00134, lr: 0.0001
+2026-03-04 15:10:27 Training for epoch 30 done, starting evaluation
+2026-03-04 15:10:29 Epoch 30 performance:
+2026-03-04 15:10:29 metrics/test.rmse:  10.438
+2026-03-04 15:10:29 metrics/test.rmse_pcutoff:8.419
+2026-03-04 15:10:29 metrics/test.mAP:   95.134
+2026-03-04 15:10:29 metrics/test.mAR:   97.000
+2026-03-04 15:10:29 metrics/test.mAP_pcutoff:49.505
+2026-03-04 15:10:29 metrics/test.mAR_pcutoff:49.000
+2026-03-04 15:10:30 Epoch 30/50 (lr=0.0001), train loss 0.00265, valid loss 0.00585
+2026-03-04 15:11:26 Number of iterations: 50, loss: 0.00180, lr: 0.0001
+2026-03-04 15:12:19 Training for epoch 31 done, starting evaluation
+2026-03-04 15:12:21 Epoch 31 performance:
+2026-03-04 15:12:21 metrics/test.rmse:  9.619
+2026-03-04 15:12:21 metrics/test.rmse_pcutoff:8.631
+2026-03-04 15:12:21 metrics/test.mAP:   96.917
+2026-03-04 15:12:21 metrics/test.mAR:   98.000
+2026-03-04 15:12:21 metrics/test.mAP_pcutoff:24.752
+2026-03-04 15:12:21 metrics/test.mAR_pcutoff:24.000
+2026-03-04 15:12:21 Epoch 31/50 (lr=0.0001), train loss 0.00252, valid loss 0.00602
+2026-03-04 15:13:20 Number of iterations: 50, loss: 0.00370, lr: 0.0001
+2026-03-04 15:14:12 Training for epoch 32 done, starting evaluation
+2026-03-04 15:14:14 Epoch 32 performance:
+2026-03-04 15:14:14 metrics/test.rmse:  14.034
+2026-03-04 15:14:14 metrics/test.rmse_pcutoff:9.580
+2026-03-04 15:14:14 metrics/test.mAP:   92.192
+2026-03-04 15:14:14 metrics/test.mAR:   94.000
+2026-03-04 15:14:14 metrics/test.mAP_pcutoff:33.267
+2026-03-04 15:14:14 metrics/test.mAR_pcutoff:33.000
+2026-03-04 15:14:14 Epoch 32/50 (lr=0.0001), train loss 0.00268, valid loss 0.00607
+2026-03-04 15:15:13 Number of iterations: 50, loss: 0.00206, lr: 0.0001
+2026-03-04 15:15:57 Training for epoch 33 done, starting evaluation
+2026-03-04 15:15:59 Epoch 33 performance:
+2026-03-04 15:15:59 metrics/test.rmse:  9.624
+2026-03-04 15:15:59 metrics/test.rmse_pcutoff:7.958
+2026-03-04 15:15:59 metrics/test.mAP:   97.482
+2026-03-04 15:15:59 metrics/test.mAR:   98.000
+2026-03-04 15:15:59 metrics/test.mAP_pcutoff:40.347
+2026-03-04 15:15:59 metrics/test.mAR_pcutoff:40.000
+2026-03-04 15:15:59 Epoch 33/50 (lr=0.0001), train loss 0.00245, valid loss 0.00556
+2026-03-04 15:16:57 Number of iterations: 50, loss: 0.00244, lr: 0.0001
+2026-03-04 15:17:45 Training for epoch 34 done, starting evaluation
+2026-03-04 15:17:47 Epoch 34 performance:
+2026-03-04 15:17:47 metrics/test.rmse:  9.861
+2026-03-04 15:17:47 metrics/test.rmse_pcutoff:7.934
+2026-03-04 15:17:47 metrics/test.mAP:   98.614
+2026-03-04 15:17:47 metrics/test.mAR:   99.000
+2026-03-04 15:17:47 metrics/test.mAP_pcutoff:45.545
+2026-03-04 15:17:47 metrics/test.mAR_pcutoff:45.000
+2026-03-04 15:17:47 Epoch 34/50 (lr=0.0001), train loss 0.00252, valid loss 0.00550
+2026-03-04 15:18:42 Number of iterations: 50, loss: 0.00111, lr: 0.0001
+2026-03-04 15:19:33 Training for epoch 35 done, starting evaluation
+2026-03-04 15:19:35 Epoch 35 performance:
+2026-03-04 15:19:35 metrics/test.rmse:  10.599
+2026-03-04 15:19:35 metrics/test.rmse_pcutoff:7.795
+2026-03-04 15:19:35 metrics/test.mAP:   93.707
+2026-03-04 15:19:35 metrics/test.mAR:   96.000
+2026-03-04 15:19:35 metrics/test.mAP_pcutoff:49.505
+2026-03-04 15:19:35 metrics/test.mAR_pcutoff:49.000
+2026-03-04 15:19:35 Epoch 35/50 (lr=0.0001), train loss 0.00238, valid loss 0.00566
+2026-03-04 15:20:31 Number of iterations: 50, loss: 0.00210, lr: 0.0001
+2026-03-04 15:21:20 Training for epoch 36 done, starting evaluation
+2026-03-04 15:21:23 Epoch 36 performance:
+2026-03-04 15:21:23 metrics/test.rmse:  9.375
+2026-03-04 15:21:23 metrics/test.rmse_pcutoff:8.649
+2026-03-04 15:21:23 metrics/test.mAP:   96.917
+2026-03-04 15:21:23 metrics/test.mAR:   98.000
+2026-03-04 15:21:23 metrics/test.mAP_pcutoff:42.178
+2026-03-04 15:21:23 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:21:23 Epoch 36/50 (lr=0.0001), train loss 0.00221, valid loss 0.00568
+2026-03-04 15:22:18 Number of iterations: 50, loss: 0.00163, lr: 0.0001
+2026-03-04 15:23:06 Training for epoch 37 done, starting evaluation
+2026-03-04 15:23:08 Epoch 37 performance:
+2026-03-04 15:23:08 metrics/test.rmse:  8.826
+2026-03-04 15:23:08 metrics/test.rmse_pcutoff:7.155
+2026-03-04 15:23:08 metrics/test.mAP:   98.802
+2026-03-04 15:23:08 metrics/test.mAR:   99.000
+2026-03-04 15:23:08 metrics/test.mAP_pcutoff:32.343
+2026-03-04 15:23:08 metrics/test.mAR_pcutoff:32.000
+2026-03-04 15:23:08 Epoch 37/50 (lr=0.0001), train loss 0.00211, valid loss 0.00555
+2026-03-04 15:24:06 Number of iterations: 50, loss: 0.00208, lr: 0.0001
+2026-03-04 15:24:59 Training for epoch 38 done, starting evaluation
+2026-03-04 15:25:01 Epoch 38 performance:
+2026-03-04 15:25:01 metrics/test.rmse:  9.539
+2026-03-04 15:25:01 metrics/test.rmse_pcutoff:8.423
+2026-03-04 15:25:01 metrics/test.mAP:   98.802
+2026-03-04 15:25:01 metrics/test.mAR:   99.000
+2026-03-04 15:25:01 metrics/test.mAP_pcutoff:49.295
+2026-03-04 15:25:01 metrics/test.mAR_pcutoff:49.000
+2026-03-04 15:25:01 Epoch 38/50 (lr=0.0001), train loss 0.00250, valid loss 0.00581
+2026-03-04 15:25:58 Number of iterations: 50, loss: 0.00147, lr: 0.0001
+2026-03-04 15:26:47 Training for epoch 39 done, starting evaluation
+2026-03-04 15:26:49 Epoch 39 performance:
+2026-03-04 15:26:49 metrics/test.rmse:  8.621
+2026-03-04 15:26:49 metrics/test.rmse_pcutoff:7.741
+2026-03-04 15:26:49 metrics/test.mAP:   97.482
+2026-03-04 15:26:49 metrics/test.mAR:   98.000
+2026-03-04 15:26:49 metrics/test.mAP_pcutoff:42.574
+2026-03-04 15:26:49 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:26:49 Epoch 39/50 (lr=0.0001), train loss 0.00243, valid loss 0.00519
+2026-03-04 15:27:43 Number of iterations: 50, loss: 0.00360, lr: 0.0001
+2026-03-04 15:28:28 Training for epoch 40 done, starting evaluation
+2026-03-04 15:28:30 Epoch 40 performance:
+2026-03-04 15:28:30 metrics/test.rmse:  13.832
+2026-03-04 15:28:30 metrics/test.rmse_pcutoff:8.736
+2026-03-04 15:28:30 metrics/test.mAP:   92.717
+2026-03-04 15:28:30 metrics/test.mAR:   95.000
+2026-03-04 15:28:30 metrics/test.mAP_pcutoff:47.822
+2026-03-04 15:28:30 metrics/test.mAR_pcutoff:48.000
+2026-03-04 15:28:31 Epoch 40/50 (lr=0.0001), train loss 0.00200, valid loss 0.00585
+2026-03-04 15:29:27 Number of iterations: 50, loss: 0.00160, lr: 0.0001
+2026-03-04 15:30:13 Training for epoch 41 done, starting evaluation
+2026-03-04 15:30:15 Epoch 41 performance:
+2026-03-04 15:30:15 metrics/test.rmse:  9.950
+2026-03-04 15:30:15 metrics/test.rmse_pcutoff:9.399
+2026-03-04 15:30:15 metrics/test.mAP:   97.482
+2026-03-04 15:30:15 metrics/test.mAR:   98.000
+2026-03-04 15:30:15 metrics/test.mAP_pcutoff:44.917
+2026-03-04 15:30:15 metrics/test.mAR_pcutoff:45.000
+2026-03-04 15:30:15 Epoch 41/50 (lr=0.0001), train loss 0.00186, valid loss 0.00615
+2026-03-04 15:31:14 Number of iterations: 50, loss: 0.00285, lr: 0.0001
+2026-03-04 15:32:05 Training for epoch 42 done, starting evaluation
+2026-03-04 15:32:07 Epoch 42 performance:
+2026-03-04 15:32:07 metrics/test.rmse:  9.041
+2026-03-04 15:32:07 metrics/test.rmse_pcutoff:8.554
+2026-03-04 15:32:07 metrics/test.mAP:   98.802
+2026-03-04 15:32:07 metrics/test.mAR:   99.000
+2026-03-04 15:32:07 metrics/test.mAP_pcutoff:42.277
+2026-03-04 15:32:07 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:32:07 Epoch 42/50 (lr=0.0001), train loss 0.00216, valid loss 0.00563
+2026-03-04 15:33:01 Number of iterations: 50, loss: 0.00119, lr: 0.0001
+2026-03-04 15:33:49 Training for epoch 43 done, starting evaluation
+2026-03-04 15:33:51 Epoch 43 performance:
+2026-03-04 15:33:51 metrics/test.rmse:  11.224
+2026-03-04 15:33:51 metrics/test.rmse_pcutoff:9.518
+2026-03-04 15:33:51 metrics/test.mAP:   94.291
+2026-03-04 15:33:51 metrics/test.mAR:   96.000
+2026-03-04 15:33:51 metrics/test.mAP_pcutoff:34.653
+2026-03-04 15:33:51 metrics/test.mAR_pcutoff:34.000
+2026-03-04 15:33:51 Epoch 43/50 (lr=0.0001), train loss 0.00201, valid loss 0.00675
+2026-03-04 15:34:47 Number of iterations: 50, loss: 0.00152, lr: 0.0001
+2026-03-04 15:35:35 Training for epoch 44 done, starting evaluation
+2026-03-04 15:35:37 Epoch 44 performance:
+2026-03-04 15:35:37 metrics/test.rmse:  15.960
+2026-03-04 15:35:37 metrics/test.rmse_pcutoff:8.132
+2026-03-04 15:35:37 metrics/test.mAP:   90.737
+2026-03-04 15:35:37 metrics/test.mAR:   94.000
+2026-03-04 15:35:37 metrics/test.mAP_pcutoff:31.542
+2026-03-04 15:35:37 metrics/test.mAR_pcutoff:31.000
+2026-03-04 15:35:37 Epoch 44/50 (lr=0.0001), train loss 0.00224, valid loss 0.00616
+2026-03-04 15:36:32 Number of iterations: 50, loss: 0.00136, lr: 0.0001
+2026-03-04 15:37:22 Training for epoch 45 done, starting evaluation
+2026-03-04 15:37:24 Epoch 45 performance:
+2026-03-04 15:37:24 metrics/test.rmse:  8.439
+2026-03-04 15:37:24 metrics/test.rmse_pcutoff:7.310
+2026-03-04 15:37:24 metrics/test.mAP:   98.802
+2026-03-04 15:37:24 metrics/test.mAR:   99.000
+2026-03-04 15:37:24 metrics/test.mAP_pcutoff:44.092
+2026-03-04 15:37:24 metrics/test.mAR_pcutoff:44.000
+2026-03-04 15:37:24 Epoch 45/50 (lr=0.0001), train loss 0.00200, valid loss 0.00549
+2026-03-04 15:38:24 Number of iterations: 50, loss: 0.00144, lr: 0.0001
+2026-03-04 15:39:08 Training for epoch 46 done, starting evaluation
+2026-03-04 15:39:10 Epoch 46 performance:
+2026-03-04 15:39:10 metrics/test.rmse:  8.336
+2026-03-04 15:39:10 metrics/test.rmse_pcutoff:8.155
+2026-03-04 15:39:10 metrics/test.mAP:   98.802
+2026-03-04 15:39:10 metrics/test.mAR:   99.000
+2026-03-04 15:39:10 metrics/test.mAP_pcutoff:42.240
+2026-03-04 15:39:10 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:39:10 Epoch 46/50 (lr=0.0001), train loss 0.00221, valid loss 0.00534
+2026-03-04 15:40:13 Number of iterations: 50, loss: 0.00083, lr: 0.0001
+2026-03-04 15:41:02 Training for epoch 47 done, starting evaluation
+2026-03-04 15:41:04 Epoch 47 performance:
+2026-03-04 15:41:04 metrics/test.rmse:  10.874
+2026-03-04 15:41:04 metrics/test.rmse_pcutoff:8.140
+2026-03-04 15:41:04 metrics/test.mAP:   95.489
+2026-03-04 15:41:04 metrics/test.mAR:   97.000
+2026-03-04 15:41:04 metrics/test.mAP_pcutoff:42.178
+2026-03-04 15:41:04 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:41:04 Epoch 47/50 (lr=0.0001), train loss 0.00212, valid loss 0.00619
+2026-03-04 15:42:06 Number of iterations: 50, loss: 0.00157, lr: 0.0001
+2026-03-04 15:42:53 Training for epoch 48 done, starting evaluation
+2026-03-04 15:42:55 Epoch 48 performance:
+2026-03-04 15:42:55 metrics/test.rmse:  9.281
+2026-03-04 15:42:55 metrics/test.rmse_pcutoff:8.437
+2026-03-04 15:42:55 metrics/test.mAP:   97.482
+2026-03-04 15:42:55 metrics/test.mAR:   98.000
+2026-03-04 15:42:55 metrics/test.mAP_pcutoff:59.653
+2026-03-04 15:42:55 metrics/test.mAR_pcutoff:60.000
+2026-03-04 15:42:55 Epoch 48/50 (lr=0.0001), train loss 0.00216, valid loss 0.00583
+2026-03-04 15:43:51 Number of iterations: 50, loss: 0.00206, lr: 0.0001
+2026-03-04 15:44:41 Training for epoch 49 done, starting evaluation
+2026-03-04 15:44:44 Epoch 49 performance:
+2026-03-04 15:44:44 metrics/test.rmse:  9.699
+2026-03-04 15:44:44 metrics/test.rmse_pcutoff:9.630
+2026-03-04 15:44:44 metrics/test.mAP:   96.284
+2026-03-04 15:44:44 metrics/test.mAR:   97.000
+2026-03-04 15:44:44 metrics/test.mAP_pcutoff:42.574
+2026-03-04 15:44:44 metrics/test.mAR_pcutoff:42.000
+2026-03-04 15:44:44 Epoch 49/50 (lr=0.0001), train loss 0.00198, valid loss 0.00611
+2026-03-04 15:45:45 Number of iterations: 50, loss: 0.00257, lr: 0.0001
+2026-03-04 15:46:32 Training for epoch 50 done, starting evaluation
+2026-03-04 15:46:34 Epoch 50 performance:
+2026-03-04 15:46:34 metrics/test.rmse:  10.165
+2026-03-04 15:46:34 metrics/test.rmse_pcutoff:8.470
+2026-03-04 15:46:34 metrics/test.mAP:   95.719
+2026-03-04 15:46:34 metrics/test.mAR:   97.000
+2026-03-04 15:46:34 metrics/test.mAP_pcutoff:46.337
+2026-03-04 15:46:34 metrics/test.mAR_pcutoff:46.000
+2026-03-04 15:46:34 Epoch 50/50 (lr=0.0001), train loss 0.00192, valid loss 0.00613
+2026-03-06 10:38:34 Training with configuration:
+2026-03-06 10:38:34 data:
+2026-03-06 10:38:34   colormode: RGB
+2026-03-06 10:38:34   inference:
+2026-03-06 10:38:34     normalize_images: True
+2026-03-06 10:38:34   train:
+2026-03-06 10:38:34     affine:
+2026-03-06 10:38:34       p: 0.5
+2026-03-06 10:38:34       rotation: 30
+2026-03-06 10:38:34       scaling: [1.0, 1.0]
+2026-03-06 10:38:34       translation: 0
+2026-03-06 10:38:34     collate:
+2026-03-06 10:38:34       type: ResizeFromDataSizeCollate
+2026-03-06 10:38:34       min_scale: 0.4
+2026-03-06 10:38:34       max_scale: 1.0
+2026-03-06 10:38:34       min_short_side: 128
+2026-03-06 10:38:34       max_short_side: 1152
+2026-03-06 10:38:34       multiple_of: 32
+2026-03-06 10:38:34       to_square: False
+2026-03-06 10:38:34     covering: False
+2026-03-06 10:38:34     gaussian_noise: 12.75
+2026-03-06 10:38:34     hist_eq: False
+2026-03-06 10:38:34     motion_blur: False
+2026-03-06 10:38:34     normalize_images: True
+2026-03-06 10:38:34 device: auto
+2026-03-06 10:38:34 metadata:
+2026-03-06 10:38:34   project_path: /home/dalykm/Desktop/PLR_HiLo_Pilot-KMD-2026-02-25
+2026-03-06 10:38:34   pose_config_path: /home/dalykm/Desktop/PLR_HiLo_Pilot-KMD-2026-02-25/dlc-models-pytorch/iteration-0/PLR_HiLo_PilotFeb25-trainset95shuffle1/train/pose_cfg.yaml
+2026-03-06 10:38:34   bodyparts: ['N', 'S', 'E', 'W', 'NE', 'NW', 'SE', 'SW']
+2026-03-06 10:38:34   unique_bodyparts: []
+2026-03-06 10:38:34   individuals: ['animal']
+2026-03-06 10:38:34   with_identity: None
+2026-03-06 10:38:34 method: bu
+2026-03-06 10:38:34 model:
+2026-03-06 10:38:34   backbone:
+2026-03-06 10:38:34     type: ResNet
+2026-03-06 10:38:34     model_name: resnet50_gn
+2026-03-06 10:38:34     output_stride: 16
+2026-03-06 10:38:34     freeze_bn_stats: True
+2026-03-06 10:38:34     freeze_bn_weights: False
+2026-03-06 10:38:34   backbone_output_channels: 2048
+2026-03-06 10:38:34   heads:
+2026-03-06 10:38:34     bodypart:
+2026-03-06 10:38:34       type: HeatmapHead
+2026-03-06 10:38:34       weight_init: normal
+2026-03-06 10:38:34       predictor:
+2026-03-06 10:38:34         type: HeatmapPredictor
+2026-03-06 10:38:34         apply_sigmoid: False
+2026-03-06 10:38:34         clip_scores: True
+2026-03-06 10:38:34         location_refinement: True
+2026-03-06 10:38:34         locref_std: 7.2801
+2026-03-06 10:38:34       target_generator:
+2026-03-06 10:38:34         type: HeatmapGaussianGenerator
+2026-03-06 10:38:34         num_heatmaps: 8
+2026-03-06 10:38:34         pos_dist_thresh: 17
+2026-03-06 10:38:34         heatmap_mode: KEYPOINT
+2026-03-06 10:38:34         generate_locref: True
+2026-03-06 10:38:34         locref_std: 7.2801
+2026-03-06 10:38:34       criterion:
+2026-03-06 10:38:34         heatmap:
+2026-03-06 10:38:34           type: WeightedMSECriterion
+2026-03-06 10:38:34           weight: 1.0
+2026-03-06 10:38:34         locref:
+2026-03-06 10:38:34           type: WeightedHuberCriterion
+2026-03-06 10:38:34           weight: 0.05
+2026-03-06 10:38:34       heatmap_config:
+2026-03-06 10:38:34         channels: [2048, 8]
+2026-03-06 10:38:34         kernel_size: [3]
+2026-03-06 10:38:34         strides: [2]
+2026-03-06 10:38:34       locref_config:
+2026-03-06 10:38:34         channels: [2048, 16]
+2026-03-06 10:38:34         kernel_size: [3]
+2026-03-06 10:38:34         strides: [2]
+2026-03-06 10:38:34 net_type: resnet_50
+2026-03-06 10:38:34 runner:
+2026-03-06 10:38:34   type: PoseTrainingRunner
+2026-03-06 10:38:34   gpus: None
+2026-03-06 10:38:34   key_metric: test.mAP
+2026-03-06 10:38:34   key_metric_asc: True
+2026-03-06 10:38:34   eval_interval: 1
+2026-03-06 10:38:34   optimizer:
+2026-03-06 10:38:34     type: AdamW
+2026-03-06 10:38:34     params:
+2026-03-06 10:38:34       lr: 0.0001
+2026-03-06 10:38:34   scheduler:
+2026-03-06 10:38:34     type: LRListScheduler
+2026-03-06 10:38:34     params:
+2026-03-06 10:38:34       lr_list: [[1e-05], [1e-06]]
+2026-03-06 10:38:34       milestones: [160, 190]
+2026-03-06 10:38:34   snapshots:
+2026-03-06 10:38:34     max_snapshots: 5
+2026-03-06 10:38:34     save_epochs: 10
+2026-03-06 10:38:34     save_optimizer_state: False
+2026-03-06 10:38:34 train_settings:
+2026-03-06 10:38:34   batch_size: 1
+2026-03-06 10:38:34   dataloader_workers: 0
+2026-03-06 10:38:34   dataloader_pin_memory: True
+2026-03-06 10:38:34   display_iters: 500
+2026-03-06 10:38:34   epochs: 50
+2026-03-06 10:38:34   seed: 42
+2026-03-06 10:38:35 Loading pretrained weights from Hugging Face hub (timm/resnet50_gn.a1h_in1k)
+2026-03-06 10:38:35 [timm/resnet50_gn.a1h_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2026-03-06 10:38:36 Data Transforms:
+2026-03-06 10:38:36   Training:   Compose([
+  Affine(always_apply=False, p=0.5, interpolation=1, mask_interpolation=0, cval=0, mode=0, scale={'x': (1.0, 1.0), 'y': (1.0, 1.0)}, translate_percent=None, translate_px={'x': (0, 0), 'y': (0, 0)}, rotate=(-30, 30), fit_output=False, shear={'x': (0.0, 0.0), 'y': (0.0, 0.0)}, cval_mask=0, keep_ratio=True, rotate_method='largest_box'),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(0, 162.5625), per_channel=True, mean=0),
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2026-03-06 10:38:36   Validation: Compose([
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2026-03-06 10:38:36 Using custom collate function: {'type': 'ResizeFromDataSizeCollate', 'min_scale': 0.4, 'max_scale': 1.0, 'min_short_side': 128, 'max_short_side': 1152, 'multiple_of': 32, 'to_square': False}
+2026-03-06 10:38:36 
+Note: According to your model configuration, you're training with batch size 1 and/or ``freeze_bn_stats=false``. This is not an optimal setting if you have powerful GPUs.
+This is good for small batch sizes (e.g., when training on a CPU), where you should keep ``freeze_bn_stats=true``.
+If you're using a GPU to train, you can obtain faster performance by setting a larger batch size (the biggest power of 2 where you don't geta CUDA out-of-memory error, such as 8, 16, 32 or 64 depending on the model, size of your images, and GPU memory) and ``freeze_bn_stats=false`` for the backbone of your model. 
+This also allows you to increase the learning rate (empirically you can scale the learning rate by sqrt(batch_size) times).
+
+2026-03-06 10:38:36 Using 193 images and 11 for testing
+2026-03-06 10:38:36 
+Starting pose model training...
+--------------------------------------------------
+2026-03-06 10:40:47 Training for epoch 1 done, starting evaluation
+2026-03-06 10:40:50 Epoch 1 performance:
+2026-03-06 10:40:50 metrics/test.rmse:  158.585
+2026-03-06 10:40:50 metrics/test.rmse_pcutoff:nan
+2026-03-06 10:40:50 metrics/test.mAP:   17.015
+2026-03-06 10:40:50 metrics/test.mAR:   30.000
+2026-03-06 10:40:50 metrics/test.mAP_pcutoff:0.000
+2026-03-06 10:40:50 metrics/test.mAR_pcutoff:0.000
+2026-03-06 10:40:50 Epoch 1/50 (lr=0.0001), train loss 0.01272, valid loss 0.01023
+2026-03-06 10:42:54 Training for epoch 2 done, starting evaluation
+2026-03-06 10:42:56 Epoch 2 performance:
+2026-03-06 10:42:56 metrics/test.rmse:  64.843
+2026-03-06 10:42:56 metrics/test.rmse_pcutoff:4.680
+2026-03-06 10:42:56 metrics/test.mAP:   48.839
+2026-03-06 10:42:56 metrics/test.mAR:   61.818
+2026-03-06 10:42:56 metrics/test.mAP_pcutoff:0.000
+2026-03-06 10:42:56 metrics/test.mAR_pcutoff:0.000
+2026-03-06 10:42:56 Epoch 2/50 (lr=0.0001), train loss 0.00881, valid loss 0.00711
+2026-03-06 10:44:57 Training for epoch 3 done, starting evaluation
+2026-03-06 10:45:00 Epoch 3 performance:
+2026-03-06 10:45:00 metrics/test.rmse:  33.365
+2026-03-06 10:45:00 metrics/test.rmse_pcutoff:4.510
+2026-03-06 10:45:00 metrics/test.mAP:   73.102
+2026-03-06 10:45:00 metrics/test.mAR:   80.000
+2026-03-06 10:45:00 metrics/test.mAP_pcutoff:4.950
+2026-03-06 10:45:00 metrics/test.mAR_pcutoff:4.545
+2026-03-06 10:45:00 Epoch 3/50 (lr=0.0001), train loss 0.00723, valid loss 0.00561
+2026-03-06 10:46:58 Training for epoch 4 done, starting evaluation
+2026-03-06 10:47:01 Epoch 4 performance:
+2026-03-06 10:47:01 metrics/test.rmse:  36.244
+2026-03-06 10:47:01 metrics/test.rmse_pcutoff:7.588
+2026-03-06 10:47:01 metrics/test.mAP:   79.135
+2026-03-06 10:47:01 metrics/test.mAR:   84.545
+2026-03-06 10:47:01 metrics/test.mAP_pcutoff:1.980
+2026-03-06 10:47:01 metrics/test.mAR_pcutoff:1.818
+2026-03-06 10:47:01 Epoch 4/50 (lr=0.0001), train loss 0.00655, valid loss 0.00614
+2026-03-06 10:49:01 Training for epoch 5 done, starting evaluation
+2026-03-06 10:49:03 Epoch 5 performance:
+2026-03-06 10:49:03 metrics/test.rmse:  22.022
+2026-03-06 10:49:03 metrics/test.rmse_pcutoff:6.370
+2026-03-06 10:49:03 metrics/test.mAP:   81.753
+2026-03-06 10:49:03 metrics/test.mAR:   86.364
+2026-03-06 10:49:03 metrics/test.mAP_pcutoff:9.505
+2026-03-06 10:49:03 metrics/test.mAR_pcutoff:9.091
+2026-03-06 10:49:03 Epoch 5/50 (lr=0.0001), train loss 0.00579, valid loss 0.00576
+2026-03-06 10:51:02 Training for epoch 6 done, starting evaluation
+2026-03-06 10:51:05 Epoch 6 performance:
+2026-03-06 10:51:05 metrics/test.rmse:  36.173
+2026-03-06 10:51:05 metrics/test.rmse_pcutoff:6.773
+2026-03-06 10:51:05 metrics/test.mAP:   77.748
+2026-03-06 10:51:05 metrics/test.mAR:   83.636
+2026-03-06 10:51:05 metrics/test.mAP_pcutoff:0.000
+2026-03-06 10:51:05 metrics/test.mAR_pcutoff:0.000
+2026-03-06 10:51:05 Epoch 6/50 (lr=0.0001), train loss 0.00552, valid loss 0.00617
+2026-03-06 10:53:03 Training for epoch 7 done, starting evaluation
+2026-03-06 10:53:05 Epoch 7 performance:
+2026-03-06 10:53:05 metrics/test.rmse:  15.835
+2026-03-06 10:53:05 metrics/test.rmse_pcutoff:4.689
+2026-03-06 10:53:05 metrics/test.mAP:   90.756
+2026-03-06 10:53:05 metrics/test.mAR:   94.545
+2026-03-06 10:53:05 metrics/test.mAP_pcutoff:4.950
+2026-03-06 10:53:05 metrics/test.mAR_pcutoff:4.545
+2026-03-06 10:53:05 Epoch 7/50 (lr=0.0001), train loss 0.00464, valid loss 0.00492
+2026-03-06 10:55:08 Training for epoch 8 done, starting evaluation
+2026-03-06 10:55:10 Epoch 8 performance:
+2026-03-06 10:55:10 metrics/test.rmse:  22.130
+2026-03-06 10:55:10 metrics/test.rmse_pcutoff:4.694
+2026-03-06 10:55:10 metrics/test.mAP:   86.616
+2026-03-06 10:55:10 metrics/test.mAR:   91.818
+2026-03-06 10:55:10 metrics/test.mAP_pcutoff:0.000
+2026-03-06 10:55:10 metrics/test.mAR_pcutoff:0.000
+2026-03-06 10:55:10 Epoch 8/50 (lr=0.0001), train loss 0.00487, valid loss 0.00541
+2026-03-06 10:57:08 Training for epoch 9 done, starting evaluation
+2026-03-06 10:57:10 Epoch 9 performance:
+2026-03-06 10:57:10 metrics/test.rmse:  23.745
+2026-03-06 10:57:10 metrics/test.rmse_pcutoff:5.876
+2026-03-06 10:57:10 metrics/test.mAP:   84.698
+2026-03-06 10:57:10 metrics/test.mAR:   90.909
+2026-03-06 10:57:10 metrics/test.mAP_pcutoff:22.178
+2026-03-06 10:57:10 metrics/test.mAR_pcutoff:21.818
+2026-03-06 10:57:10 Epoch 9/50 (lr=0.0001), train loss 0.00463, valid loss 0.00516
+2026-03-06 10:59:04 Training for epoch 10 done, starting evaluation
+2026-03-06 10:59:06 Epoch 10 performance:
+2026-03-06 10:59:06 metrics/test.rmse:  18.022
+2026-03-06 10:59:06 metrics/test.rmse_pcutoff:4.209
+2026-03-06 10:59:06 metrics/test.mAP:   91.251
+2026-03-06 10:59:06 metrics/test.mAR:   94.545
+2026-03-06 10:59:06 metrics/test.mAP_pcutoff:9.604
+2026-03-06 10:59:06 metrics/test.mAR_pcutoff:9.091
+2026-03-06 10:59:06 Epoch 10/50 (lr=0.0001), train loss 0.00414, valid loss 0.00495
+2026-03-06 11:01:03 Training for epoch 11 done, starting evaluation
+2026-03-06 11:01:05 Epoch 11 performance:
+2026-03-06 11:01:05 metrics/test.rmse:  15.522
+2026-03-06 11:01:05 metrics/test.rmse_pcutoff:4.937
+2026-03-06 11:01:05 metrics/test.mAP:   91.116
+2026-03-06 11:01:05 metrics/test.mAR:   94.545
+2026-03-06 11:01:05 metrics/test.mAP_pcutoff:14.752
+2026-03-06 11:01:05 metrics/test.mAR_pcutoff:14.545
+2026-03-06 11:01:05 Epoch 11/50 (lr=0.0001), train loss 0.00393, valid loss 0.00490
+2026-03-06 11:03:04 Training for epoch 12 done, starting evaluation
+2026-03-06 11:03:06 Epoch 12 performance:
+2026-03-06 11:03:06 metrics/test.rmse:  8.232
+2026-03-06 11:03:06 metrics/test.rmse_pcutoff:3.581
+2026-03-06 11:03:06 metrics/test.mAP:   98.686
+2026-03-06 11:03:06 metrics/test.mAR:   99.091
+2026-03-06 11:03:06 metrics/test.mAP_pcutoff:11.188
+2026-03-06 11:03:06 metrics/test.mAR_pcutoff:10.909
+2026-03-06 11:03:06 Epoch 12/50 (lr=0.0001), train loss 0.00397, valid loss 0.00424
+2026-03-06 11:05:08 Training for epoch 13 done, starting evaluation
+2026-03-06 11:05:10 Epoch 13 performance:
+2026-03-06 11:05:10 metrics/test.rmse:  7.817
+2026-03-06 11:05:10 metrics/test.rmse_pcutoff:4.730
+2026-03-06 11:05:10 metrics/test.mAP:   98.191
+2026-03-06 11:05:10 metrics/test.mAR:   99.091
+2026-03-06 11:05:10 metrics/test.mAP_pcutoff:18.455
+2026-03-06 11:05:10 metrics/test.mAR_pcutoff:18.182
+2026-03-06 11:05:10 Epoch 13/50 (lr=0.0001), train loss 0.00391, valid loss 0.00433
+2026-03-06 11:07:09 Training for epoch 14 done, starting evaluation
+2026-03-06 11:07:11 Epoch 14 performance:
+2026-03-06 11:07:11 metrics/test.rmse:  14.482
+2026-03-06 11:07:11 metrics/test.rmse_pcutoff:5.147
+2026-03-06 11:07:11 metrics/test.mAP:   91.980
+2026-03-06 11:07:11 metrics/test.mAR:   95.455
+2026-03-06 11:07:11 metrics/test.mAP_pcutoff:36.634
+2026-03-06 11:07:11 metrics/test.mAR_pcutoff:36.364
+2026-03-06 11:07:11 Epoch 14/50 (lr=0.0001), train loss 0.00361, valid loss 0.00398
+2026-03-06 11:09:11 Training for epoch 15 done, starting evaluation
+2026-03-06 11:09:13 Epoch 15 performance:
+2026-03-06 11:09:13 metrics/test.rmse:  8.607
+2026-03-06 11:09:13 metrics/test.rmse_pcutoff:4.541
+2026-03-06 11:09:13 metrics/test.mAP:   95.899
+2026-03-06 11:09:13 metrics/test.mAR:   97.273
+2026-03-06 11:09:13 metrics/test.mAP_pcutoff:22.970
+2026-03-06 11:09:13 metrics/test.mAR_pcutoff:22.727
+2026-03-06 11:09:13 Epoch 15/50 (lr=0.0001), train loss 0.00378, valid loss 0.00447
+2026-03-06 11:11:13 Training for epoch 16 done, starting evaluation
+2026-03-06 11:11:15 Epoch 16 performance:
+2026-03-06 11:11:15 metrics/test.rmse:  8.100
+2026-03-06 11:11:15 metrics/test.rmse_pcutoff:5.698
+2026-03-06 11:11:15 metrics/test.mAP:   100.000
+2026-03-06 11:11:15 metrics/test.mAR:   100.000
+2026-03-06 11:11:15 metrics/test.mAP_pcutoff:22.079
+2026-03-06 11:11:15 metrics/test.mAR_pcutoff:21.818
+2026-03-06 11:11:15 Epoch 16/50 (lr=0.0001), train loss 0.00348, valid loss 0.00423
+2026-03-06 11:13:15 Training for epoch 17 done, starting evaluation
+2026-03-06 11:13:18 Epoch 17 performance:
+2026-03-06 11:13:18 metrics/test.rmse:  7.368
+2026-03-06 11:13:18 metrics/test.rmse_pcutoff:5.088
+2026-03-06 11:13:18 metrics/test.mAP:   98.767
+2026-03-06 11:13:18 metrics/test.mAR:   99.091
+2026-03-06 11:13:18 metrics/test.mAP_pcutoff:26.832
+2026-03-06 11:13:18 metrics/test.mAR_pcutoff:26.364
+2026-03-06 11:13:18 Epoch 17/50 (lr=0.0001), train loss 0.00349, valid loss 0.00430
+2026-03-06 11:15:15 Training for epoch 18 done, starting evaluation
+2026-03-06 11:15:18 Epoch 18 performance:
+2026-03-06 11:15:18 metrics/test.rmse:  7.566
+2026-03-06 11:15:18 metrics/test.rmse_pcutoff:5.133
+2026-03-06 11:15:18 metrics/test.mAP:   98.686
+2026-03-06 11:15:18 metrics/test.mAR:   99.091
+2026-03-06 11:15:18 metrics/test.mAP_pcutoff:36.411
+2026-03-06 11:15:18 metrics/test.mAR_pcutoff:36.364
+2026-03-06 11:15:18 Epoch 18/50 (lr=0.0001), train loss 0.00329, valid loss 0.00444
+2026-03-06 11:17:15 Training for epoch 19 done, starting evaluation
+2026-03-06 11:17:17 Epoch 19 performance:
+2026-03-06 11:17:17 metrics/test.rmse:  15.904
+2026-03-06 11:17:17 metrics/test.rmse_pcutoff:4.952
+2026-03-06 11:17:17 metrics/test.mAP:   96.724
+2026-03-06 11:17:17 metrics/test.mAR:   98.182
+2026-03-06 11:17:17 metrics/test.mAP_pcutoff:32.178
+2026-03-06 11:17:17 metrics/test.mAR_pcutoff:31.818
+2026-03-06 11:17:17 Epoch 19/50 (lr=0.0001), train loss 0.00326, valid loss 0.00415
+2026-03-06 11:19:14 Training for epoch 20 done, starting evaluation
+2026-03-06 11:19:16 Epoch 20 performance:
+2026-03-06 11:19:16 metrics/test.rmse:  7.579
+2026-03-06 11:19:16 metrics/test.rmse_pcutoff:5.546
+2026-03-06 11:19:16 metrics/test.mAP:   100.000
+2026-03-06 11:19:16 metrics/test.mAR:   100.000
+2026-03-06 11:19:16 metrics/test.mAP_pcutoff:50.000
+2026-03-06 11:19:16 metrics/test.mAR_pcutoff:50.000
+2026-03-06 11:19:16 Epoch 20/50 (lr=0.0001), train loss 0.00314, valid loss 0.00433
+2026-03-06 11:21:17 Training for epoch 21 done, starting evaluation
+2026-03-06 11:21:19 Epoch 21 performance:
+2026-03-06 11:21:19 metrics/test.rmse:  6.702
+2026-03-06 11:21:19 metrics/test.rmse_pcutoff:5.041
+2026-03-06 11:21:19 metrics/test.mAP:   100.000
+2026-03-06 11:21:19 metrics/test.mAR:   100.000
+2026-03-06 11:21:19 metrics/test.mAP_pcutoff:42.515
+2026-03-06 11:21:19 metrics/test.mAR_pcutoff:42.727
+2026-03-06 11:21:19 Epoch 21/50 (lr=0.0001), train loss 0.00305, valid loss 0.00400
+2026-03-06 11:23:16 Training for epoch 22 done, starting evaluation
+2026-03-06 11:23:18 Epoch 22 performance:
+2026-03-06 11:23:18 metrics/test.rmse:  6.888
+2026-03-06 11:23:18 metrics/test.rmse_pcutoff:5.141
+2026-03-06 11:23:18 metrics/test.mAP:   100.000
+2026-03-06 11:23:18 metrics/test.mAR:   100.000
+2026-03-06 11:23:18 metrics/test.mAP_pcutoff:44.431
+2026-03-06 11:23:18 metrics/test.mAR_pcutoff:44.545
+2026-03-06 11:23:18 Epoch 22/50 (lr=0.0001), train loss 0.00296, valid loss 0.00408
+2026-03-06 11:25:23 Training for epoch 23 done, starting evaluation
+2026-03-06 11:25:25 Epoch 23 performance:
+2026-03-06 11:25:25 metrics/test.rmse:  7.593
+2026-03-06 11:25:25 metrics/test.rmse_pcutoff:4.412
+2026-03-06 11:25:25 metrics/test.mAP:   100.000
+2026-03-06 11:25:25 metrics/test.mAR:   100.000
+2026-03-06 11:25:25 metrics/test.mAP_pcutoff:43.762
+2026-03-06 11:25:25 metrics/test.mAR_pcutoff:43.636
+2026-03-06 11:25:25 Epoch 23/50 (lr=0.0001), train loss 0.00313, valid loss 0.00445
+2026-03-06 11:27:29 Training for epoch 24 done, starting evaluation
+2026-03-06 11:27:31 Epoch 24 performance:
+2026-03-06 11:27:31 metrics/test.rmse:  14.050
+2026-03-06 11:27:31 metrics/test.rmse_pcutoff:5.243
+2026-03-06 11:27:31 metrics/test.mAP:   96.724
+2026-03-06 11:27:31 metrics/test.mAR:   98.182
+2026-03-06 11:27:31 metrics/test.mAP_pcutoff:57.001
+2026-03-06 11:27:31 metrics/test.mAR_pcutoff:57.273
+2026-03-06 11:27:31 Epoch 24/50 (lr=0.0001), train loss 0.00310, valid loss 0.00386
+2026-03-06 11:29:31 Training for epoch 25 done, starting evaluation
+2026-03-06 11:29:33 Epoch 25 performance:
+2026-03-06 11:29:33 metrics/test.rmse:  13.370
+2026-03-06 11:29:33 metrics/test.rmse_pcutoff:5.487
+2026-03-06 11:29:33 metrics/test.mAP:   96.724
+2026-03-06 11:29:33 metrics/test.mAR:   98.182
+2026-03-06 11:29:33 metrics/test.mAP_pcutoff:55.347
+2026-03-06 11:29:33 metrics/test.mAR_pcutoff:55.455
+2026-03-06 11:29:33 Epoch 25/50 (lr=0.0001), train loss 0.00299, valid loss 0.00383
+2026-03-06 11:31:34 Training for epoch 26 done, starting evaluation
+2026-03-06 11:31:37 Epoch 26 performance:
+2026-03-06 11:31:37 metrics/test.rmse:  14.632
+2026-03-06 11:31:37 metrics/test.rmse_pcutoff:5.024
+2026-03-06 11:31:37 metrics/test.mAP:   97.696
+2026-03-06 11:31:37 metrics/test.mAR:   98.182
+2026-03-06 11:31:37 metrics/test.mAP_pcutoff:55.198
+2026-03-06 11:31:37 metrics/test.mAR_pcutoff:55.455
+2026-03-06 11:31:37 Epoch 26/50 (lr=0.0001), train loss 0.00292, valid loss 0.00375
+2026-03-06 11:33:35 Training for epoch 27 done, starting evaluation
+2026-03-06 11:33:38 Epoch 27 performance:
+2026-03-06 11:33:38 metrics/test.rmse:  14.648
+2026-03-06 11:33:38 metrics/test.rmse_pcutoff:6.521
+2026-03-06 11:33:38 metrics/test.mAP:   95.347
+2026-03-06 11:33:38 metrics/test.mAR:   97.273
+2026-03-06 11:33:38 metrics/test.mAP_pcutoff:58.656
+2026-03-06 11:33:38 metrics/test.mAR_pcutoff:59.091
+2026-03-06 11:33:38 Epoch 27/50 (lr=0.0001), train loss 0.00272, valid loss 0.00465
+2026-03-06 11:35:41 Training for epoch 28 done, starting evaluation
+2026-03-06 11:35:43 Epoch 28 performance:
+2026-03-06 11:35:43 metrics/test.rmse:  6.433
+2026-03-06 11:35:43 metrics/test.rmse_pcutoff:5.124
+2026-03-06 11:35:43 metrics/test.mAP:   98.686
+2026-03-06 11:35:43 metrics/test.mAR:   99.091
+2026-03-06 11:35:43 metrics/test.mAP_pcutoff:51.782
+2026-03-06 11:35:43 metrics/test.mAR_pcutoff:51.818
+2026-03-06 11:35:43 Epoch 28/50 (lr=0.0001), train loss 0.00280, valid loss 0.00386
+2026-03-06 11:37:42 Training for epoch 29 done, starting evaluation
+2026-03-06 11:37:44 Epoch 29 performance:
+2026-03-06 11:37:44 metrics/test.rmse:  15.979
+2026-03-06 11:37:44 metrics/test.rmse_pcutoff:5.028
+2026-03-06 11:37:44 metrics/test.mAP:   95.086
+2026-03-06 11:37:44 metrics/test.mAR:   97.273
+2026-03-06 11:37:44 metrics/test.mAP_pcutoff:47.327
+2026-03-06 11:37:44 metrics/test.mAR_pcutoff:47.273
+2026-03-06 11:37:44 Epoch 29/50 (lr=0.0001), train loss 0.00274, valid loss 0.00398
+2026-03-06 11:39:42 Training for epoch 30 done, starting evaluation
+2026-03-06 11:39:45 Epoch 30 performance:
+2026-03-06 11:39:45 metrics/test.rmse:  13.776
+2026-03-06 11:39:45 metrics/test.rmse_pcutoff:5.935
+2026-03-06 11:39:45 metrics/test.mAP:   95.086
+2026-03-06 11:39:45 metrics/test.mAR:   97.273
+2026-03-06 11:39:45 metrics/test.mAP_pcutoff:51.782
+2026-03-06 11:39:45 metrics/test.mAR_pcutoff:51.818
+2026-03-06 11:39:45 Epoch 30/50 (lr=0.0001), train loss 0.00270, valid loss 0.00414
+2026-03-06 11:41:41 Training for epoch 31 done, starting evaluation
+2026-03-06 11:41:43 Epoch 31 performance:
+2026-03-06 11:41:43 metrics/test.rmse:  7.394
+2026-03-06 11:41:43 metrics/test.rmse_pcutoff:6.043
+2026-03-06 11:41:43 metrics/test.mAP:   100.000
+2026-03-06 11:41:43 metrics/test.mAR:   100.000
+2026-03-06 11:41:43 metrics/test.mAP_pcutoff:58.656
+2026-03-06 11:41:43 metrics/test.mAR_pcutoff:59.091
+2026-03-06 11:41:43 Epoch 31/50 (lr=0.0001), train loss 0.00254, valid loss 0.00418
+2026-03-06 11:43:40 Training for epoch 32 done, starting evaluation
+2026-03-06 11:43:42 Epoch 32 performance:
+2026-03-06 11:43:42 metrics/test.rmse:  7.937
+2026-03-06 11:43:42 metrics/test.rmse_pcutoff:6.327
+2026-03-06 11:43:42 metrics/test.mAP:   98.443
+2026-03-06 11:43:42 metrics/test.mAR:   99.091
+2026-03-06 11:43:42 metrics/test.mAP_pcutoff:62.475
+2026-03-06 11:43:42 metrics/test.mAR_pcutoff:62.727
+2026-03-06 11:43:42 Epoch 32/50 (lr=0.0001), train loss 0.00268, valid loss 0.00452
+2026-03-06 11:45:39 Training for epoch 33 done, starting evaluation
+2026-03-06 11:45:41 Epoch 33 performance:
+2026-03-06 11:45:41 metrics/test.rmse:  6.511
+2026-03-06 11:45:41 metrics/test.rmse_pcutoff:5.771
+2026-03-06 11:45:41 metrics/test.mAP:   98.443
+2026-03-06 11:45:41 metrics/test.mAR:   99.091
+2026-03-06 11:45:41 metrics/test.mAP_pcutoff:69.736
+2026-03-06 11:45:41 metrics/test.mAR_pcutoff:70.909
+2026-03-06 11:45:41 Epoch 33/50 (lr=0.0001), train loss 0.00244, valid loss 0.00373
+2026-03-06 11:47:36 Training for epoch 34 done, starting evaluation
+2026-03-06 11:47:38 Epoch 34 performance:
+2026-03-06 11:47:38 metrics/test.rmse:  6.116
+2026-03-06 11:47:38 metrics/test.rmse_pcutoff:5.330
+2026-03-06 11:47:38 metrics/test.mAP:   100.000
+2026-03-06 11:47:38 metrics/test.mAR:   100.000
+2026-03-06 11:47:38 metrics/test.mAP_pcutoff:56.980
+2026-03-06 11:47:38 metrics/test.mAR_pcutoff:57.273
+2026-03-06 11:47:38 Epoch 34/50 (lr=0.0001), train loss 0.00226, valid loss 0.00364
+2026-03-06 11:49:39 Training for epoch 35 done, starting evaluation
+2026-03-06 11:49:41 Epoch 35 performance:
+2026-03-06 11:49:41 metrics/test.rmse:  19.970
+2026-03-06 11:49:41 metrics/test.rmse_pcutoff:5.577
+2026-03-06 11:49:41 metrics/test.mAP:   95.158
+2026-03-06 11:49:41 metrics/test.mAR:   97.273
+2026-03-06 11:49:41 metrics/test.mAP_pcutoff:52.376
+2026-03-06 11:49:41 metrics/test.mAR_pcutoff:52.727
+2026-03-06 11:49:41 Epoch 35/50 (lr=0.0001), train loss 0.00229, valid loss 0.00425
+2026-03-06 11:51:43 Training for epoch 36 done, starting evaluation
+2026-03-06 11:51:45 Epoch 36 performance:
+2026-03-06 11:51:45 metrics/test.rmse:  7.139
+2026-03-06 11:51:45 metrics/test.rmse_pcutoff:5.635
+2026-03-06 11:51:45 metrics/test.mAP:   100.000
+2026-03-06 11:51:45 metrics/test.mAR:   100.000
+2026-03-06 11:51:45 metrics/test.mAP_pcutoff:67.710
+2026-03-06 11:51:45 metrics/test.mAR_pcutoff:68.182
+2026-03-06 11:51:45 Epoch 36/50 (lr=0.0001), train loss 0.00265, valid loss 0.00427
+2026-03-06 11:53:47 Training for epoch 37 done, starting evaluation
+2026-03-06 11:53:50 Epoch 37 performance:
+2026-03-06 11:53:50 metrics/test.rmse:  13.726
+2026-03-06 11:53:50 metrics/test.rmse_pcutoff:6.087
+2026-03-06 11:53:50 metrics/test.mAP:   95.086
+2026-03-06 11:53:50 metrics/test.mAR:   97.273
+2026-03-06 11:53:50 metrics/test.mAP_pcutoff:69.604
+2026-03-06 11:53:50 metrics/test.mAR_pcutoff:70.000
+2026-03-06 11:53:50 Epoch 37/50 (lr=0.0001), train loss 0.00250, valid loss 0.00413
+2026-03-06 11:55:50 Training for epoch 38 done, starting evaluation
+2026-03-06 11:55:52 Epoch 38 performance:
+2026-03-06 11:55:52 metrics/test.rmse:  16.950
+2026-03-06 11:55:52 metrics/test.rmse_pcutoff:6.052
+2026-03-06 11:55:52 metrics/test.mAP:   93.708
+2026-03-06 11:55:52 metrics/test.mAR:   96.364
+2026-03-06 11:55:52 metrics/test.mAP_pcutoff:56.238
+2026-03-06 11:55:52 metrics/test.mAR_pcutoff:56.364
+2026-03-06 11:55:53 Epoch 38/50 (lr=0.0001), train loss 0.00255, valid loss 0.00485
+2026-03-06 11:57:53 Training for epoch 39 done, starting evaluation
+2026-03-06 11:57:55 Epoch 39 performance:
+2026-03-06 11:57:55 metrics/test.rmse:  6.997
+2026-03-06 11:57:55 metrics/test.rmse_pcutoff:5.685
+2026-03-06 11:57:55 metrics/test.mAP:   100.000
+2026-03-06 11:57:55 metrics/test.mAR:   100.000
+2026-03-06 11:57:55 metrics/test.mAP_pcutoff:51.782
+2026-03-06 11:57:55 metrics/test.mAR_pcutoff:51.818
+2026-03-06 11:57:55 Epoch 39/50 (lr=0.0001), train loss 0.00242, valid loss 0.00414
+2026-03-06 11:59:55 Training for epoch 40 done, starting evaluation
+2026-03-06 11:59:57 Epoch 40 performance:
+2026-03-06 11:59:57 metrics/test.rmse:  14.741
+2026-03-06 11:59:57 metrics/test.rmse_pcutoff:6.747
+2026-03-06 11:59:57 metrics/test.mAP:   91.980
+2026-03-06 11:59:57 metrics/test.mAR:   95.455
+2026-03-06 11:59:57 metrics/test.mAP_pcutoff:61.528
+2026-03-06 11:59:57 metrics/test.mAR_pcutoff:62.727
+2026-03-06 11:59:58 Epoch 40/50 (lr=0.0001), train loss 0.00247, valid loss 0.00468
+2026-03-06 12:01:57 Training for epoch 41 done, starting evaluation
+2026-03-06 12:01:59 Epoch 41 performance:
+2026-03-06 12:01:59 metrics/test.rmse:  7.158
+2026-03-06 12:01:59 metrics/test.rmse_pcutoff:6.055
+2026-03-06 12:01:59 metrics/test.mAP:   100.000
+2026-03-06 12:01:59 metrics/test.mAR:   100.000
+2026-03-06 12:01:59 metrics/test.mAP_pcutoff:67.733
+2026-03-06 12:01:59 metrics/test.mAR_pcutoff:68.182
+2026-03-06 12:01:59 Epoch 41/50 (lr=0.0001), train loss 0.00217, valid loss 0.00409
+2026-03-06 12:03:55 Training for epoch 42 done, starting evaluation
+2026-03-06 12:03:57 Epoch 42 performance:
+2026-03-06 12:03:57 metrics/test.rmse:  7.153
+2026-03-06 12:03:57 metrics/test.rmse_pcutoff:6.144
+2026-03-06 12:03:57 metrics/test.mAP:   97.174
+2026-03-06 12:03:57 metrics/test.mAR:   98.182
+2026-03-06 12:03:57 metrics/test.mAP_pcutoff:60.475
+2026-03-06 12:03:57 metrics/test.mAR_pcutoff:61.818
+2026-03-06 12:03:57 Epoch 42/50 (lr=0.0001), train loss 0.00226, valid loss 0.00443
+2026-03-06 12:05:59 Training for epoch 43 done, starting evaluation
+2026-03-06 12:06:01 Epoch 43 performance:
+2026-03-06 12:06:01 metrics/test.rmse:  6.070
+2026-03-06 12:06:01 metrics/test.rmse_pcutoff:5.510
+2026-03-06 12:06:01 metrics/test.mAP:   98.686
+2026-03-06 12:06:01 metrics/test.mAR:   99.091
+2026-03-06 12:06:01 metrics/test.mAP_pcutoff:75.545
+2026-03-06 12:06:01 metrics/test.mAR_pcutoff:76.364
+2026-03-06 12:06:01 Epoch 43/50 (lr=0.0001), train loss 0.00210, valid loss 0.00373
+2026-03-06 12:08:00 Training for epoch 44 done, starting evaluation
+2026-03-06 12:08:03 Epoch 44 performance:
+2026-03-06 12:08:03 metrics/test.rmse:  6.513
+2026-03-06 12:08:03 metrics/test.rmse_pcutoff:5.534
+2026-03-06 12:08:03 metrics/test.mAP:   100.000
+2026-03-06 12:08:03 metrics/test.mAR:   100.000
+2026-03-06 12:08:03 metrics/test.mAP_pcutoff:61.584
+2026-03-06 12:08:03 metrics/test.mAR_pcutoff:61.818
+2026-03-06 12:08:03 Epoch 44/50 (lr=0.0001), train loss 0.00231, valid loss 0.00396
+2026-03-06 12:10:03 Training for epoch 45 done, starting evaluation
+2026-03-06 12:10:06 Epoch 45 performance:
+2026-03-06 12:10:06 metrics/test.rmse:  6.098
+2026-03-06 12:10:06 metrics/test.rmse_pcutoff:5.176
+2026-03-06 12:10:06 metrics/test.mAP:   98.605
+2026-03-06 12:10:06 metrics/test.mAR:   99.091
+2026-03-06 12:10:06 metrics/test.mAP_pcutoff:67.228
+2026-03-06 12:10:06 metrics/test.mAR_pcutoff:68.182
+2026-03-06 12:10:06 Epoch 45/50 (lr=0.0001), train loss 0.00224, valid loss 0.00371
+2026-03-06 12:12:04 Training for epoch 46 done, starting evaluation
+2026-03-06 12:12:06 Epoch 46 performance:
+2026-03-06 12:12:06 metrics/test.rmse:  7.258
+2026-03-06 12:12:06 metrics/test.rmse_pcutoff:6.196
+2026-03-06 12:12:06 metrics/test.mAP:   100.000
+2026-03-06 12:12:06 metrics/test.mAR:   100.000
+2026-03-06 12:12:06 metrics/test.mAP_pcutoff:77.698
+2026-03-06 12:12:06 metrics/test.mAR_pcutoff:78.182
+2026-03-06 12:12:06 Epoch 46/50 (lr=0.0001), train loss 0.00223, valid loss 0.00414
+2026-03-06 12:14:11 Training for epoch 47 done, starting evaluation
+2026-03-06 12:14:13 Epoch 47 performance:
+2026-03-06 12:14:13 metrics/test.rmse:  6.628
+2026-03-06 12:14:13 metrics/test.rmse_pcutoff:5.900
+2026-03-06 12:14:13 metrics/test.mAP:   100.000
+2026-03-06 12:14:13 metrics/test.mAR:   100.000
+2026-03-06 12:14:13 metrics/test.mAP_pcutoff:75.842
+2026-03-06 12:14:13 metrics/test.mAR_pcutoff:76.364
+2026-03-06 12:14:13 Epoch 47/50 (lr=0.0001), train loss 0.00219, valid loss 0.00383
+2026-03-06 12:16:15 Training for epoch 48 done, starting evaluation
+2026-03-06 12:16:17 Epoch 48 performance:
+2026-03-06 12:16:17 metrics/test.rmse:  6.209
+2026-03-06 12:16:17 metrics/test.rmse_pcutoff:5.498
+2026-03-06 12:16:17 metrics/test.mAP:   100.000
+2026-03-06 12:16:17 metrics/test.mAR:   100.000
+2026-03-06 12:16:17 metrics/test.mAP_pcutoff:68.713
+2026-03-06 12:16:17 metrics/test.mAR_pcutoff:69.091
+2026-03-06 12:16:17 Epoch 48/50 (lr=0.0001), train loss 0.00228, valid loss 0.00369
+2026-03-06 12:18:15 Training for epoch 49 done, starting evaluation
+2026-03-06 12:18:17 Epoch 49 performance:
+2026-03-06 12:18:17 metrics/test.rmse:  6.076
+2026-03-06 12:18:17 metrics/test.rmse_pcutoff:5.397
+2026-03-06 12:18:17 metrics/test.mAP:   100.000
+2026-03-06 12:18:17 metrics/test.mAR:   100.000
+2026-03-06 12:18:17 metrics/test.mAP_pcutoff:72.277
+2026-03-06 12:18:17 metrics/test.mAR_pcutoff:72.727
+2026-03-06 12:18:17 Epoch 49/50 (lr=0.0001), train loss 0.00195, valid loss 0.00363
+2026-03-06 12:20:16 Training for epoch 50 done, starting evaluation
+2026-03-06 12:20:18 Epoch 50 performance:
+2026-03-06 12:20:18 metrics/test.rmse:  6.230
+2026-03-06 12:20:18 metrics/test.rmse_pcutoff:5.843
+2026-03-06 12:20:18 metrics/test.mAP:   100.000
+2026-03-06 12:20:18 metrics/test.mAR:   100.000
+2026-03-06 12:20:18 metrics/test.mAP_pcutoff:72.277
+2026-03-06 12:20:18 metrics/test.mAR_pcutoff:72.727
+2026-03-06 12:20:18 Epoch 50/50 (lr=0.0001), train loss 0.00197, valid loss 0.00391
